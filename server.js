@@ -13,15 +13,22 @@ server.use(sassMiddleware({
 	dest: path.join(__dirname, 'public')
 }));
 
-
 //setting up ejs to work with express
 server.set('view engine', 'ejs'); 
 
+import serverRender from './serverRender';
 
 server.get('/', (req, res) => {
-	res.render('index', {
-		content: 'Hello Express and EJS!'
-	}); //.render used for ejs files. .ejs extension not req	
+	serverRender()
+		.then(content => {
+			//.render used for ejs files. .ejs extension not req	
+			res.render('index', {
+				content
+			});
+		})
+		.catch(console.error)
+
+	 
 });
 
 server.use('/api', apiRouter); 
@@ -38,7 +45,7 @@ server.use(express.static('public'));
 // public is where we want our static assets to be hosted ON the file sys
 
 
-server.listen(config.port, () => {
+server.listen(config.port, config.host, () => {
 	console.info("express listening on port ", config.port);
 });
 
