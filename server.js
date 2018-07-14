@@ -1,9 +1,18 @@
 import express from 'express';
 import config from './config';
 import apiRouter from './api';
+import sassMiddleware from 'node-sass-middleware';
+import path from 'path';
 // import fs from 'fs'; #not needed because we use the .use api
 
 const server = express();
+
+//setting up the server to use our node sass middleware
+server.use(sassMiddleware({
+	src: path.join(__dirname, 'sass'),
+	dest: path.join(__dirname, 'public')
+}));
+
 
 //setting up ejs to work with express
 server.set('view engine', 'ejs'); 
