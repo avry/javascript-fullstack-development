@@ -13,4 +13,12 @@ router.get('/contests', (req, res) => {
 	});
 }); 
 
+router.get('/contests/:contestId', (req, res) => {
+	//the id will thus be available as req.params.contestId
+	let contest = contests[req.params.contestId];
+	contest.description = 'some placeholder description';
+
+	res.send(contest);
+}); 
+
 export default router;
