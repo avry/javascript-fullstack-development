@@ -17,8 +17,8 @@ server.use(sassMiddleware({
 //setting up ejs to work with express
 server.set('view engine', 'ejs'); 
 
-server.get('/', (req, res) => {
-	serverRender()
+server.get(['/', '/contest/:contestId'], (req, res) => {
+	serverRender(req.params.contestId)
 		.then(({initialMarkup, initialData}) => {
 			//.render used for ejs files. .ejs extension not req	
 			res.render('index', {
