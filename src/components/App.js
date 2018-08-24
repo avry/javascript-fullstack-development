@@ -29,6 +29,7 @@ class App extends React.Component {
 	}
 	componentWillUnmount() {
 		//clean timers, listeners
+		onPopState(null);
 	}
 	fetchContest = (contestId) => {
 		pushState(
