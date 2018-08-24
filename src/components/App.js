@@ -9,6 +9,10 @@ const pushState = (obj, url) => {
 }
 
 
+const onPopState = handler => {
+	window.onpopstate = handler;
+}
+
 
 class App extends React.Component {
 	static propTypes = {
@@ -17,6 +21,11 @@ class App extends React.Component {
 	state = this.props.initialData;
 	componentDidMount() {
 		//will perform ajax request	
+		onPopState((event) => {
+			this.setState({
+				currentContestId: (event.state || {}).currentContestId
+			});
+		}); 
 	}
 	componentWillUnmount() {
 		//clean timers, listeners
@@ -45,7 +54,7 @@ class App extends React.Component {
 			console.log("it is done");
 			this.setState({
 				currentContestId: null,
-				contest
+				contest 
 			});
 		});
 	};
