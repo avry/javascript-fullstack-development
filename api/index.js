@@ -31,7 +31,25 @@ router.get('/contests', (req, res) => {
 			}
 			contests[contest.id] = contest;
 		});
+});
+
+
+router.get('/names/:nameIds', (req, res) => {
+	//nameIds available as req.params.nameIds
+	const nameIds = req.params.nameIds.split(',').map(Number);
+	let names = {};
+	mdb.collection('names').find({ id: { $in: nameIds }}) //find all names where the id is found within the array known as nameIds
+		.each((err, name) => {
+			assert.equal(null, err);
+
+			if (!name) {//no more contests to process
+				res.send({ names });
+				return;
+		}
+		names[name.id] = name;
+	});
 }); 
+
 
 router.get('/contests/:contestId', (req, res) => {
 	//the id will thus be available as req.params.contestId
