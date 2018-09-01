@@ -42,10 +42,10 @@ class App extends React.Component {
 		);
 		api.fetchContest(contestId).then(contest => {
 			this.setState({
-				currentContestId: contest.id,
+				currentContestId: contest._id,
 				contests: {
 					...this.state.contests,
-					[contest.id]: contest
+					[contest._id]: contest
 				}
 			});
 		});
@@ -77,7 +77,7 @@ class App extends React.Component {
 			});
 		});
 	};
-
+ 
 	lookupName = (nameId) => {
 		if (!this.state.names || !this.state.names[nameId]) {
 			return {
