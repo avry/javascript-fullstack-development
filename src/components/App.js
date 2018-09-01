@@ -16,9 +16,9 @@ const onPopState = handler => {
 
 class App extends React.Component {
 	static propTypes = {
-		initialData: React.PropTypes.object.isRequired
+		initialData: React.PropTypes.object.isRequired //the data object
 	};
-	state = this.props.initialData;
+	state = this.props.initialData; //this.props.initialData is an object 
 	componentDidMount() {
 		//will perform ajax request	
 		onPopState((event) => {

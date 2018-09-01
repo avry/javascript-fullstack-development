@@ -32,7 +32,7 @@ const getInitialData = (contestId, apiData) => {
 
 
 const serverRender = (contestId) =>
-	axios.get(getApiUrl(contestId))
+	axios.get(getApiUrl(contestId)) //check whether we are requesting the contest list or a contest detail
 		.then(resp => {
 			const initialData = getInitialData(contestId, resp.data); 
 			return {

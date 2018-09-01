@@ -7,5 +7,5 @@ export const fetchContest = contestId => {
 
 export const fetchContestList = () => {
 	return axios.get(`/api/contests`)
-		.then(resp => resp.data.contests);
+		.then(resp => resp.data.contests );
 };

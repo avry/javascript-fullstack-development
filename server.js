@@ -17,6 +17,7 @@ server.use(sassMiddleware({
 //setting up ejs to work with express
 server.set('view engine', 'ejs'); 
 
+//this handles the home contest list and the contest details pages
 server.get(['/', '/contest/:contestId'], (req, res) => {
 	serverRender(req.params.contestId)
 		.then(({initialMarkup, initialData}) => {
@@ -29,6 +30,8 @@ server.get(['/', '/contest/:contestId'], (req, res) => {
 		.catch(console.error) 
 });
 
+
+//this handles all api requests for JSON data
 server.use('/api', apiRouter); 
 
 
