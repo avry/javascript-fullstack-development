@@ -23,14 +23,18 @@ class App extends React.Component {
 		//will perform ajax request	
 		onPopState((event) => {
 			this.setState({
-				currentContestId: (event.state || {}).currentContestId
+				currentContestId: (event.state || {}).currentContestId //if event.state is undefined, then there is no currentContestId
 			});
 		}); 
 	}
+
+
 	componentWillUnmount() {
 		//clean timers, listeners
 		onPopState(null);
 	}
+
+
 	fetchContest = (contestId) => {
 		pushState(
 			{ currentContestId: contestId },
@@ -46,6 +50,8 @@ class App extends React.Component {
 			});
 		});
 	};
+
+
 	fetchContestList = () => {
 		pushState(
 			{ currentContestId: null },
@@ -59,26 +65,37 @@ class App extends React.Component {
 			});
 		});
 	};
+
+
 	currentContest() {
 		return this.state.contests[this.state.currentContestId];
 	}
+
+
 	pageHeader() {
+		//returns header
 		if (this.state.currentContestId) {
 			return this.currentContest().contestName;
 		}
 		return 'Naming Contests';
 	}
+
+// currentContestId: apiData.id,
+// contests: {[apiData.id]: apiData}
+
 	currentContent() {
 		if (this.state.currentContestId) {
 			return <Contest 
 				contestListClick={this.fetchContestList}
-				{...this.currentContest()} />;
+				{...this.currentContest()} />; //shallow cloning via the spread operator
 		}
 		return <ContestList 
 			onContestClick={this.fetchContest}
 			contests={this.state.contests} />;
 
 	}
+
+
 	render() {
 		return (
 			<div className="App">
