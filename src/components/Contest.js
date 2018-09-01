@@ -1,6 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 
 class Contest extends Component {
+  componentDidMount() {
+    this.props.fetchNames(this.props.nameIds);
+  }
+
   render() {
     return (
       <div className="Contest">
@@ -21,8 +25,9 @@ class Contest extends Component {
           </div>
           <div className="panel-body">
             <ul className="list-group">
-              <li className="list-group-item">Name one...</li>
-              <li className="list-group-item">Name two...</li>
+              {this.props.nameIds.map(nameId => 
+                <li key={nameId} className="list-group-item">{this.props.lookupName(nameId).name}</li>
+              )}
             </ul>
           </div>
         </div>
@@ -55,6 +60,9 @@ class Contest extends Component {
 Contest.propTypes = {
   description: PropTypes.string.isRequired,
   contestListClick: PropTypes.func.isRequired,
+  nameIds: PropTypes.array.isRequired,
+  fetchNames: PropTypes.func.isRequired,
+  lookupName: PropTypes.func.isRequired
 };
 
 export default Contest;
