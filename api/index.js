@@ -58,4 +58,29 @@ router.get('/contests/:contestId', (req, res) => {
 		.catch(console.error);
 }); 
 
+
+router.post('/names', (req, res) => {
+	const contestId = ObjectID(req.body.contestId);
+	const name = req.body.newName;
+	//SHOULD USUALLY ALWAYS DO DATA VALIDATION here
+
+	mdb.collection('names').insertOne({ name }).then(result =>
+		mdb.collection('contests').findAndModify(
+			{ _id: contestId}, //the query. we are finding element with id = contestId
+			[], //how to sort if we get multiple results back. we don't need to do anything in our case here
+			{ $push: { nameIds: result.insertedId }}, //we are pushing/changing the nameIds field to the previous result object's insertedId which is the auto generated mongo _id
+			{ new: true } //this asks the findAndModify call to return the updated document 
+		).then(doc =>
+			res.send({
+				updatedContest: doc.value,
+				newName: { _id: result.insertedId, name }
+			})
+		)
+	)
+	.catch(error => {
+		console.error(error)
+		res.status(404).send('Bad Request');
+	}); 
+});
+
 export default router;

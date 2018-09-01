@@ -4,9 +4,10 @@ import apiRouter from './api';
 import sassMiddleware from 'node-sass-middleware';
 import path from 'path';
 import serverRender from './serverRender';
-// import fs from 'fs'; #not needed because we use the .use api
+import bodyParser from 'body-parser';
 
 const server = express();
+server.use(bodyParser.json());
 
 //setting up the server to use our node sass middleware
 server.use(sassMiddleware({
@@ -30,7 +31,7 @@ server.get(['/', '/contest/:contestId'], (req, res) => {
 		.catch(error => {
 			console.error(error)
 			res.status(404).send('Bad Request');
-		}) 
+		}); 
 });
 
 
