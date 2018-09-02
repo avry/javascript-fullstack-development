@@ -101,6 +101,24 @@ class App extends React.Component {
 		return 'Naming Contests';
 	}
 
+	addName = (newName, contestId) => {
+		api.addName(newName, contestId).
+			then(resp => 
+				this.setState({
+					contests: {
+						...this.state.contests,
+					 	[resp.updatedContest._id]: resp.updatedContest,//this is a dynamic id						
+					},
+					names: {
+						...this.state.names,
+						[resp.newName._id]: resp.newName
+					}
+
+				})
+			)
+			.catch(console.error);
+	};
+
 // currentContestId: apiData.id,
 // contests: {[apiData.id]: apiData}
 
@@ -110,6 +128,7 @@ class App extends React.Component {
 				contestListClick={this.fetchContestList}
 				fetchNames={this.fetchNames} 
 				lookupName={this.lookupName}
+				addName={this.addName}
 				{...this.currentContest()} />; //shallow cloning via the spread operator
 		}
 		return <ContestList 
